@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config'; //importing .env config 
+import Customer_Model from './src/models/customerModel.js'; //importing the customer model from the customerModel.js
 
 mongoose.set('strictQuery', false);
 
@@ -9,21 +10,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
+//sending the customer info to the database
+const customer = new Customer_Model({
+    name: "Omar",
+    age: 24,
+    industry: "Tech"
+});
 
-
-const customers = [
-    {
-        "name":"O",
-        "industry":"Engineering"
-    },
-    {
-        "name":"R",
-        "industry":"Software"
-    },
-]
+customer.save(); //save the entry to the atlas
 
 app.get('/', (req, res) => {
-    res.send("This is a GET request");
+    res.send(customer);
 })
 
 app.get('/api/customers', (req, res) => {
