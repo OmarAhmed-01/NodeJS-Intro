@@ -36,13 +36,17 @@ app.get('/api/customers', async(req, res) => {
     }
 })
 
-app.post('/', (req, res) => {
-    res.send("This is a POST request")
-})
-
-app.post('/api/customers', (req,res) => {
-    console.log(req.body)
-    res.send(req.body)
+//POST request that takes the data from the body of the request
+//create new customer model called customer
+app.post('/api/customers', async(req,res) => {
+    const customer = new Customer_Model(req.body);
+    try {
+        await customer.save();
+        res.json({success: true, customer: customer});
+    } catch (error) {
+        res.json({success: false, message: "Error posting customer", error: error.message});
+    }
+    
 })
 
 //start function that connects to the MONGODB database using the DATABASE_URI found in the .env file
