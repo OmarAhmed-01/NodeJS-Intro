@@ -17,14 +17,23 @@ const customer = new Customer_Model({
     industry: "Tech"
 });
 
-customer.save(); //save the entry to the atlas
+// customer.save(); //save the entry to the atlas
 
 app.get('/', (req, res) => {
-    res.send(customer);
+    res.send("Welcome!");
 })
 
-app.get('/api/customers', (req, res) => {
-    res.send({"Customers": customers});
+//GET request that finds searches inside the Customer_Model for customers and saves them as result
+//=> respond in json format with the customer result
+//add try catch block to catch error
+app.get('/api/customers', async(req, res) => {
+    try {
+        const result  = await Customer_Model.find();
+        res.json({"Customers": result});
+    } catch (error) {
+        console.log(error);
+        res.json({error: error.message})    
+    }
 })
 
 app.post('/', (req, res) => {

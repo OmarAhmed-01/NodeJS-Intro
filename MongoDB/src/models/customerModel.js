@@ -8,6 +8,6 @@ const customerSchema = new Schema({
     industry: String
 });
 
-const Customer_Model = mongoose.model("Customer", customerSchema); //creating a new Customer collection in the database
+const Customer_Model = mongoose.model("customers", customerSchema); //creating a new Customer collection in the database
 
 export default Customer_Model;
