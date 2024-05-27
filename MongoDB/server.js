@@ -36,6 +36,13 @@ app.get('/api/customers', async(req, res) => {
     }
 })
 
+app.get('/api/customers/:id', async(req, res) => {
+    res.json({
+        requestParams: req.params,
+        requestQuery: req.query
+    });
+})
+
 //POST request that takes the data from the body of the request
 //create new customer model called customer
 app.post('/api/customers', async(req,res) => {
