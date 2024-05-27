@@ -36,6 +36,8 @@ app.get('/api/customers', async(req, res) => {
     }
 })
 
+//GET request that takes an id parameter and finds the customer with this id 
+//then displays that customer
 app.get('/api/customers/:id', async(req, res) => {
     console.log({
         requestParams: req.params,
@@ -57,6 +59,32 @@ app.get('/api/customers/:id', async(req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: "Error" });
+    }
+})
+
+//PUT request that takes an req body input and updated the existing 
+//customer with the new data
+app.put('/api/customers/:id', async(req, res) => {
+    try {
+        const customerID = req.params.id;
+        const result = await Customer_Model.replaceOne({_id: customerID}, req.body);
+        console.log(result);
+        res.json({success: true, message: "Updated Customers Successfully", updatedCount: result.modifiedCount});
+    } catch (error) {
+        console.log(error);
+        res.json({success: false, message: "Error Updating Customer"});
+    }
+})
+
+//DELETE request that takes the id of the customer to be deleted
+app.delete('/api/customers/:id', async(req, res) => {
+    try {
+        const customerID = req.params.id;
+        const result = await Customer_Model.deleteOne({_id: customerID});
+        res.json({success: true, message: "Deleted Customer Successfully", deletedCount: result.deletedCount});
+    } catch (error) {
+        console.log(error);
+        res.json({success: false, message: "Failed to Delete Customer"})
     }
 })
 
