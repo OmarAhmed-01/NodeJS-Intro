@@ -37,10 +37,27 @@ app.get('/api/customers', async(req, res) => {
 })
 
 app.get('/api/customers/:id', async(req, res) => {
-    res.json({
+    console.log({
         requestParams: req.params,
         requestQuery: req.query
     });
+    try {
+        const customerID = req.params.id;
+        console.log("Customer ID: "+ customerID);
+
+        const customer = await Customer_Model.findById(customerID);
+        console.log(customer);
+
+        if(!customer){
+            return res.status(404).json({error: "User Not Found"})
+        }
+        else{
+            res.status(200).json({customer})
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: "Error" });
+    }
 })
 
 //POST request that takes the data from the body of the request
